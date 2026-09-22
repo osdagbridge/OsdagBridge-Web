@@ -1,0 +1,9 @@
+from fastapi import APIRouter
+from app.api.schema import router as schema_router
+from app.api.validate import router as validate_router
+from app.api.location import router as location_router
+
+api_router = APIRouter(prefix="/api/v1")
+api_router.include_router(schema_router)
+api_router.include_router(validate_router)
+api_router.include_router(location_router)
