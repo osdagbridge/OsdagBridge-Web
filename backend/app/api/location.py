@@ -7,7 +7,7 @@ CORE_DIR = Path(__file__).resolve().parents[5] / "OsdagBridge" / "src"
 if CORE_DIR.exists() and str(CORE_DIR) not in sys.path:
     sys.path.insert(0, str(CORE_DIR))
 
-router = APIRouter(prefix="/location", tags=["Project Location (Lead Garvit)"])
+router = APIRouter(prefix="/location", tags=["Project Location"])
 
 @router.get("/states", response_model=LocationStateResponse)
 def get_states():

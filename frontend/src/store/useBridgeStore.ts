@@ -10,7 +10,7 @@ interface BridgeState {
   schemaLoading: boolean;
   validationErrors: Record<string, string>;
 
-  // Project Location (Lead Garvit)
+  // Project Location
   location: LocationData | null;
   isLocationModalOpen: boolean;
 

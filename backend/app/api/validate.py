@@ -13,7 +13,7 @@ router = APIRouter(prefix="/validate", tags=["Validation"])
 def validate_field(payload: ValidateFieldRequest):
     """
     Validates a single input field against IRC / Osdag design constraints.
-    [Task B-2: Backend Intern connects this to BridgeInputValidator in validator.py]
+    TODO: Connect to BridgeInputValidator in validator.py
     """
     key = payload.key
     val = payload.value
