@@ -24,7 +24,7 @@ OsdagBridge-Web/
 ### 1. Backend (FastAPI)
 ```bash
 cd backend
-# Create virtual environment or activate conda 'osb'
+# Create virtual environment or activate conda environment
 python -m venv .venv
 source .venv/bin/activate   # or .venv\Scripts\activate on Windows
 pip install -r requirements.txt
@@ -43,11 +43,3 @@ npm run dev
 - Web Workbench: **http://localhost:5173**
 
 ---
-
-## 👥 Team Responsibilities & Ownership
-
-| Owner | Area | Key Responsibilities |
-| :--- | :--- | :--- |
-| **Lead (Garvit)** | Architecture & Location | System design, contracts, Project Location Dialog (`/api/v1/location`), worker isolation, code reviews. |
-| **Frontend Intern** | UI & Visualization | Dynamic Input Dock (`InputDock.tsx`), live validation badges, 2D SVG canvas & Three.js 3D viewport. |
-| **Backend Intern** | API & Workers | Schema serializer (`ui_fields.py` adapter), validator bridge (`validator.py`), RQ task queue, PostgreSQL models. |
