@@ -119,7 +119,7 @@ BASE_SCHEMA: List[UIFieldSchema] = [
 def get_basic_input_schema():
     """
     Returns the schema-driven definition of input fields for the Input Dock.
-    [Task B-1: Backend Intern will enhance this to dynamically pull from ui_fields.py]
+    TODO: Dynamically serialize from ui_fields.py
     """
     try:
         from osdagbridge.core.bridge_types.plate_girder.ui_fields import FrontendData
