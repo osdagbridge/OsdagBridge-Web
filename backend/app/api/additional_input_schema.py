@@ -7,7 +7,7 @@ from app.models.schemas import AdditionalInputTab
 
 from unittest.mock import MagicMock
 
-def remove_magic_mock(node):
+def remove_magic_mock(node): #to return None in place of the MagicMock module
     if isinstance(node, MagicMock):
         return None
     if isinstance(node, dict):

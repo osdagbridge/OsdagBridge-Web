@@ -1,3 +1,4 @@
+#file to create fake modules as desktop folder is not included in the package
 import sys
 import importlib.abc
 import importlib.machinery
@@ -8,7 +9,7 @@ PREFIXES = ("osdagbridge.desktop", "PySide6", "shiboken6")
 
 class MockFinder(importlib.abc.MetaPathFinder, importlib.abc.Loader):
     def find_spec(self, fullname, path, target=None):
-        # Any module whose name starts with a listed prefix is handled by MagicMock
+        # Any module whose name starts with a listed prefix like osdag.desktop is handled 
         if fullname.startswith(PREFIXES):
             return importlib.machinery.ModuleSpec(fullname, self, is_package=True)
         return None  # everything else imports normally
