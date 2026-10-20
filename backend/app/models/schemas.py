@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List, Dict, Any, Union
 
 #Changed label property to Optional[str] = None to accommodate module type ui fields with "None" as label
@@ -18,6 +18,25 @@ class UIFieldSchema(BaseModel):
     action: Optional[str] = None
     visibility: Optional[bool] = True
     validator: Optional[str ] = None
+
+class AdditionalUiFieldSchema(BaseModel):  #validation for the top fields of additional inputs 
+    model_config = ConfigDict(extra="allow") #allows any changes in the ui field to be reflected 
+
+    id: str
+    layout: Dict[str, Any]
+    header: Optional[Dict[str, Any]] = None
+    primary_fields: Optional[Dict[str, Any]] = None
+    sections: Optional[List[Dict[str, Any]]] = None
+    tabs: Optional[List[Dict[str, Any]]] = None
+
+class AdditionalInputTab(BaseModel):  #validation for the additional input tab
+    model_config = ConfigDict(extra="allow")
+
+    label: str
+    schema: AdditionalUiFieldSchema
+    main_id: str
+    filler_column_index: Optional[Any] = None
+    with_scroll: Optional[bool] = None
 
 class ValidateFieldRequest(BaseModel):
     key: str

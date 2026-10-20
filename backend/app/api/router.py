@@ -3,6 +3,7 @@ from app.api.schema import router as schema_router
 from app.api.materials import router as material_router
 from app.api.validate import router as validate_router
 from app.api.sections import router as sections_router
+from app.api.additional_input_schema import router as additional_input_router
 from app.api.location import router as location_router
 
 api_router = APIRouter(prefix="/api/v1")
@@ -11,3 +12,4 @@ api_router.include_router(material_router)
 api_router.include_router(validate_router)
 api_router.include_router(sections_router)
 api_router.include_router(location_router)
+api_router.include_router(additional_input_router)
