@@ -13,7 +13,7 @@ router = APIRouter(prefix="/location", tags=["Project Location"])
 def get_states():
     """Returns list of all Indian states from weather database."""
     try:
-        from osdagbridge.core.bridge_types.plate_girder.ui_fields_project_location import get_state_list
+        from osdagbridge_core.bridge_types.plate_girder.ui_fields_project_location import get_state_list
         states = get_state_list(include_placeholder=False)
         return LocationStateResponse(states=states)
     except Exception:
@@ -26,7 +26,7 @@ def get_states():
 def get_stations(state: str = Query(..., description="Name of the State")):
     """Returns stations/districts for the selected state."""
     try:
-        from osdagbridge.core.bridge_types.plate_girder.ui_fields_project_location import get_station_list
+        from osdagbridge_core.bridge_types.plate_girder.ui_fields_project_location import get_station_list
         stations = get_station_list(state=state, include_placeholder=False)
         return LocationStationResponse(state=state, stations=stations)
     except Exception:

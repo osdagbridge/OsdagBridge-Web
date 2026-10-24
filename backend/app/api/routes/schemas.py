@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from osdagbridge.core.bridge_types.plate_girder.ui_fields_additional_input import (
+from osdagbridge_core.bridge_types.plate_girder.ui_fields_additional_input import (
     _DECK_DETAILS_TAB_SCHEMA as LAYOUT_TAB_SCHEMA,
     _CRASH_BARRIER_TAB_SCHEMA as CRASH_BARRIER_TAB_SCHEMA,
     _MEDIAN_TAB_SCHEMA as MEDIAN_TAB_SCHEMA,
