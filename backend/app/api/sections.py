@@ -10,7 +10,7 @@ def get_rolled_sections():
     """
     try:
 
-        from osdagbridge.core.utils.common import girder_catalog
+        from osdagbridge_core.utils.common import girder_catalog
 
         sections = girder_catalog.list_available_sections()
         rolled_section_result = []
