@@ -30,10 +30,10 @@ class AdditionalUiFieldSchema(BaseModel):  #validation for the top fields of add
     tabs: Optional[List[Dict[str, Any]]] = None
 
 class AdditionalInputTab(BaseModel):  #validation for the additional input tab
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     label: str
-    schema: AdditionalUiFieldSchema
+    schema_: AdditionalUiFieldSchema = Field(alias="schema") #core sends schema therefore its mentioned as an alias here
     main_id: str
     filler_column_index: Optional[Any] = None
     with_scroll: Optional[bool] = None
