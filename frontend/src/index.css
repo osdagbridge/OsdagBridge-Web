@@ -148,26 +148,32 @@ body {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb);
   border-radius: 4px;
   min-height: 30px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-hover);
 }
 
 /* Shared input styles (mirrors dock_utils.py) */
-input, select, textarea {
+input,
+select,
+textarea {
   font-family: inherit;
   color: var(--text-main);
   background: var(--input-bg);
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   border-color: var(--border-focus) !important;
   outline: none;
   box-shadow: 0 0 0 1px var(--border-focus);
@@ -308,7 +314,7 @@ button {
   display: none;
 }
 
-.osdag-menu-submenu:hover > .osdag-menu-panel--nested {
+.osdag-menu-submenu:hover>.osdag-menu-panel--nested {
   display: block;
 }
 
@@ -723,8 +729,13 @@ button {
 }
 
 @keyframes osdag-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .osdag-spin {
@@ -754,11 +765,11 @@ button {
     overflow: auto !important;
   }
 
-  .app-header > div:first-child {
+  .app-header>div:first-child {
     flex-wrap: wrap;
   }
 
-  .app-header > div:last-child {
+  .app-header>div:last-child {
     flex-wrap: wrap;
     justify-content: flex-end;
   }
@@ -777,8 +788,8 @@ button {
     max-height: 42vh;
   }
 
-  .osdag-input-dock > aside > div,
-  .osdag-output-dock > aside > div {
+  .osdag-input-dock>aside>div,
+  .osdag-output-dock>aside>div {
     min-width: 0 !important;
   }
 
@@ -789,4 +800,10 @@ button {
   .viewport-toolbar {
     flex-shrink: 0;
   }
+}
+
+.log-content::selection,
+.log-content *::selection {
+  background-color: #FF0000;
+  color: #fff;
 }

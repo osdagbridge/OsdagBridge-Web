@@ -241,6 +241,7 @@ export const LogDock: React.FC = () => {
           onScroll={handleScroll}
           id="textEdit"
           role="log"
+          className="log-content"
           aria-live="polite"
           aria-label="Design log messages"
           style={{
