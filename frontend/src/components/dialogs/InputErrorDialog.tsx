@@ -1,15 +1,9 @@
 /**
  * InputErrorDialog.tsx
  *
- * "Input Error" modal mirroring desktop CustomMessageBox and CustomTitleBar
+ * Modal mirroring desktop CustomMessageBox and CustomTitleBar
  * from osdagbridge.desktop.ui.dialogs.custom_messagebox.
- *
- * Matches desktop implementation:
- *   - CustomTitleBar: 32px height, /vectors/Osdag_logo.svg (20x20), "Input Error" label (12px, medium),
- *     46x32 close button with "✕", 1px bottom border.
- *   - Dialog frame: 1px solid #90AF13 border, #ffffff background, 4px border-radius.
- *   - Content layout: 20px padding, /vectors/msg_warning.svg (34x34), 12px text (#1f1f1f).
- *   - Button layout: right-aligned #FF9800 orange "OK" button (height 30px, border-radius 5px, 12px font).
+ * Supports Warning (orange) and Critical (red) dialog types.
  */
 
 import React, { useEffect, useCallback, useState } from 'react';
@@ -40,8 +34,18 @@ export const InputErrorDialog: React.FC = () => {
 
   if (!inputErrorDialog) return null;
 
+  const isCritical = inputErrorDialog.type === 'critical';
+  const title = inputErrorDialog.title || (isCritical ? 'Empty Required Fields' : 'Input Error');
+  const iconSrc = isCritical ? '/vectors/msg_critical.svg' : '/vectors/msg_warning.svg';
+
+  const btnNormalBg = isCritical ? '#F44336' : '#FF9800';
+  const btnHoverBg = isCritical ? '#E53935' : '#FB8C00';
+  const btnActiveBg = isCritical ? '#D32F2F' : '#F57C00';
+
   const handleOk = () => {
-    inputErrorDialog.onOk();
+    if (inputErrorDialog.onOk) {
+      inputErrorDialog.onOk();
+    }
     dismissInputErrorDialog();
   };
 
@@ -58,7 +62,7 @@ export const InputErrorDialog: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 2000,
+        zIndex: 10000,
       }}
     >
       {/* Dialog card — mirrors CustomMessageBox (1px solid #90AF13 border, white bg) */}
@@ -79,7 +83,7 @@ export const InputErrorDialog: React.FC = () => {
         <div
           style={{
             height: '32px',
-            background: '#f4f4f4',
+            background: '#ffffff',
             borderBottom: '1px solid #dcdcdc',
             display: 'flex',
             alignItems: 'center',
@@ -100,11 +104,11 @@ export const InputErrorDialog: React.FC = () => {
               id="input-error-title"
               style={{
                 fontSize: '12px',
-                fontWeight: 500,
+                fontWeight: 600,
                 color: '#1f1f1f',
               }}
             >
-              Input Error
+              {title}
             </span>
           </div>
 
@@ -115,12 +119,12 @@ export const InputErrorDialog: React.FC = () => {
             onMouseLeave={() => setCloseHover(false)}
             aria-label="Close"
             style={{
-              width: '46px',
+              width: '40px',
               height: '32px',
               border: 'none',
               background: closeHover ? '#e81123' : 'transparent',
               color: closeHover ? '#ffffff' : '#333333',
-              fontSize: '12px',
+              fontSize: '13px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -132,7 +136,7 @@ export const InputErrorDialog: React.FC = () => {
           </button>
         </div>
 
-        {/* ContentWidget — mirrors contentLayout (20px margins, msg_warning.svg, 12px text) */}
+        {/* ContentWidget — mirrors contentLayout (20px margins, icon, 12px text) */}
         <div
           style={{
             padding: '20px 20px 16px 20px',
@@ -140,25 +144,26 @@ export const InputErrorDialog: React.FC = () => {
             flexDirection: 'column',
           }}
         >
-          {/* Inner row: warning icon + text */}
+          {/* Inner row: warning/critical icon + text */}
           <div
             style={{
               display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
+              alignItems: 'flex-start',
+              gap: '14px',
             }}
           >
             <img
-              src="/vectors/msg_warning.svg"
-              alt="Warning"
+              src={iconSrc}
+              alt="Alert"
               width={34}
               height={34}
               style={{
                 flexShrink: 0,
                 display: 'block',
+                marginTop: '2px',
               }}
             />
-            <p
+            <div
               id="input-error-message"
               style={{
                 fontSize: '12px',
@@ -166,13 +171,15 @@ export const InputErrorDialog: React.FC = () => {
                 lineHeight: 1.5,
                 margin: 0,
                 textAlign: 'left',
+                whiteSpace: 'pre-line',
+                fontFamily: 'system-ui, -apple-system, sans-serif',
               }}
             >
               {inputErrorDialog.message}
-            </p>
+            </div>
           </div>
 
-          {/* Button layout — right-aligned #FF9800 warning button */}
+          {/* Button layout — right-aligned OK button */}
           <div
             style={{
               display: 'flex',
@@ -195,12 +202,12 @@ export const InputErrorDialog: React.FC = () => {
                 height: '30px',
                 minWidth: '70px',
                 padding: '5px 18px',
-                backgroundColor: btnActive ? '#F57C00' : btnHover ? '#FB8C00' : '#FF9800',
+                backgroundColor: btnActive ? btnActiveBg : btnHover ? btnHoverBg : btnNormalBg,
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '5px',
                 fontSize: '12px',
-                fontWeight: 500,
+                fontWeight: 600,
                 cursor: 'pointer',
                 transition: 'background-color 0.15s ease',
               }}
@@ -213,4 +220,3 @@ export const InputErrorDialog: React.FC = () => {
     </div>
   );
 };
-

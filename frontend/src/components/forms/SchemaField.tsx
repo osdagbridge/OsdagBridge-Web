@@ -92,7 +92,16 @@ function FieldError({ id, error }: { id: string; error?: string }) {
  * button_label comes from the schema provided by the backend; no hardcoded fallbacks.
  */
 const ButtonField: React.FC<{ field: UIFieldSchema }> = ({ field }) => {
-  const { inputs, location, isLocked, setLocationModalOpen, constants } = useBridgeStore();
+  const {
+    inputs,
+    location,
+    isLocked,
+    setLocationModalOpen,
+    setAdditionalInputsOpen,
+    validateRequiredInputs,
+    requiredErrors,
+    constants,
+  } = useBridgeStore();
 
   const opensLocationDialog =
     field.action === 'show_project_location_dialog' ||
@@ -107,6 +116,7 @@ const ButtonField: React.FC<{ field: UIFieldSchema }> = ({ field }) => {
     : (projectLocationKey && inputs[projectLocationKey] ? inputs[projectLocationKey] : null);
 
   const hasLocation = Boolean(locationText);
+  const isLocationError = opensLocationDialog && requiredErrors.includes('project.location') && !hasLocation;
 
   const isAdditionalBtn = Boolean(
     field.key === 'geometry.additional_btn' ||
@@ -116,7 +126,7 @@ const ButtonField: React.FC<{ field: UIFieldSchema }> = ({ field }) => {
   );
 
   const buttonText = opensLocationDialog
-    ? (locationText || field.button_label || field.label)
+    ? (isLocationError ? 'Select Location' : (locationText || field.button_label || field.label))
     : (isAdditionalBtn ? (field.button_label || 'Modify Here') : (field.button_label || field.label));
 
   const showPin = field.post_row?.kind === 'info_row' && hasLocation;
@@ -131,6 +141,10 @@ const ButtonField: React.FC<{ field: UIFieldSchema }> = ({ field }) => {
           onClick={() => {
             if (opensLocationDialog) {
               setLocationModalOpen(true);
+            } else if (isAdditionalBtn) {
+              if (validateRequiredInputs()) {
+                setAdditionalInputsOpen(true);
+              }
             }
           }}
           className="osdag-action-btn"
@@ -138,6 +152,9 @@ const ButtonField: React.FC<{ field: UIFieldSchema }> = ({ field }) => {
             flex: 1,
             cursor: isLocked ? 'not-allowed' : 'pointer',
             opacity: isLocked ? 0.65 : 1,
+            backgroundColor: isLocationError ? '#d32f2f' : undefined,
+            color: isLocationError ? '#ffffff' : undefined,
+            borderColor: isLocationError ? '#d32f2f' : undefined,
           }}
         >
           {buttonText}
@@ -330,7 +347,7 @@ const NoteField: React.FC<{ field: UIFieldSchema }> = ({ field }) => (
  * are hardcoded here.
  */
 const TextOrNumberField: React.FC<{ field: UIFieldSchema }> = ({ field }) => {
-  const { inputs, updateField, isLocked, showInputErrorDialog, constants } = useBridgeStore();
+  const { inputs, updateField, isLocked, showInputErrorDialog, requiredErrors, constants } = useBridgeStore();
 
   const value = inputs[field.key] ?? field.default ?? '';
   const [localVal, setLocalVal] = useState<string>(
@@ -448,6 +465,8 @@ const TextOrNumberField: React.FC<{ field: UIFieldSchema }> = ({ field }) => {
               paddingRight: showTrailingUnit ? '32px' : '7px',
               cursor: isLocked ? 'not-allowed' : 'text',
               opacity: isLocked ? 0.65 : 1,
+              borderColor: requiredErrors.includes(field.key) ? '#d32f2f' : undefined,
+              boxShadow: requiredErrors.includes(field.key) ? '0 0 0 1px #d32f2f' : undefined,
             }}
           />
           {showTrailingUnit && (

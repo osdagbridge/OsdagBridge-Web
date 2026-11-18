@@ -172,11 +172,36 @@ textarea {
   background: var(--input-bg);
 }
 
+/* Hide spin buttons for number inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 input:focus,
 select:focus {
   border-color: var(--border-focus) !important;
   outline: none;
   box-shadow: 0 0 0 1px var(--border-focus);
+}
+
+/* Additional inputs modal inputs - keep border black on click/focus, no green glow */
+.additional-inputs-modal input:focus,
+.additional-inputs-modal select:focus,
+.additional-inputs-modal textarea:focus,
+.additional-inputs-modal input:focus-visible,
+.additional-inputs-modal select:focus-visible,
+.additional-inputs-modal textarea:focus-visible,
+.additional-inputs-modal input:active,
+.additional-inputs-modal select:active {
+  border-color: #000000 !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* Ensure transitions for theme changes */
@@ -817,4 +842,18 @@ button {
 .log-content *::selection {
   background-color: #db1212;
   color: #fff;
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.hide-scrollbar,
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }

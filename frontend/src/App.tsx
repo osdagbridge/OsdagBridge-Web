@@ -26,6 +26,7 @@ import { OutputDock } from './components/docks/OutputDock';
 import { LogDock } from './components/docks/LogDock';
 import { ProjectLocationModal } from './components/dialogs/ProjectLocationModal';
 import { InputErrorDialog } from './components/dialogs/InputErrorDialog';
+import { AdditionalInputsModal } from './components/dialogs/additional-inputs';
 
 export default function App() {
   const darkMode = useBridgeStore((s) => s.darkMode);
@@ -95,6 +96,7 @@ export default function App() {
       {/* Modals — always mounted, revealed by store flags */}
       <ProjectLocationModal />
       <InputErrorDialog />
+      <AdditionalInputsModal />
     </div>
   );
 }
