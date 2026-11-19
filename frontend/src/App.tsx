@@ -1,21 +1,6 @@
 /**
  * App.tsx
- *
- * Root component for the OsdagBridge web workbench.
- * Mirrors the top-level layout of osdagbridge.desktop.ui.template_page.
- *
- * Layout structure:
- *   ┌─────────────────────────────────────────────────┐
- *   │ Header (menu bar + viewport toggles)            │
- *   ├────────────┬──────────────────────┬─────────────┤
- *   │ InputDock  │   (app-center)       │ OutputDock  │
- *   │            │                      │             │
- *   │            ├──────────────────────┤             │
- *   │            │ LogDock (bottom-ctr) │             │
- *   └────────────┴──────────────────────┴─────────────┘
- *
- * Modals:
- *   ProjectLocationModal — project location picker (always mounted, hidden until triggered)
+ * Root workbench layout styled with Tailwind CSS utility classes.
  */
 
 import React, { useEffect } from 'react';
@@ -32,58 +17,38 @@ export default function App() {
   const isLogDockOpen = useBridgeStore((s) => s.isLogDockOpen);
   const fetchConstants = useBridgeStore((s) => s.fetchConstants);
 
-  // Fetch backend constants once at application initialization
   useEffect(() => {
     fetchConstants();
   }, [fetchConstants]);
 
-  // Sync the HTML root element's data-theme attribute with the store flag
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
     document.documentElement.style.colorScheme = darkMode ? 'dark' : 'light';
   }, [darkMode]);
 
   return (
-    <div
-      className="app-root"
-      style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw' }}
-    >
+    <div className="flex flex-col h-screen w-screen border border-accent-border box-border bg-app text-main overflow-hidden">
       {/* Accessibility: skip-nav link */}
-      <a href="#main-workbench" className="skip-link">Skip to workbench</a>
+      <a
+        href="#main-workbench"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-[2000] focus:bg-accent focus:text-white focus:px-2.5 focus:py-1.5 focus:rounded text-xs font-semibold"
+      >
+        Skip to workbench
+      </a>
 
       <Header />
 
       {/* Three-column workbench: Input | Center (Log) | Output */}
       <div
         id="main-workbench"
-        className="app-workbench"
+        className="app-workbench flex flex-col md:flex-row flex-1 overflow-auto md:overflow-hidden"
         role="main"
-        style={{ display: 'flex', flex: 1, overflow: 'hidden' }}
       >
         <InputDock />
 
-        <div
-          className="app-center"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-            overflow: 'hidden',
-            minWidth: 0,
-            position: 'relative',
-          }}
-        >
-          {/* Main workspace canvas area occupying space above the log dock */}
-          <div
-            className="main-canvas"
-            style={{
-              flex: 1,
-              minHeight: 0,
-              width: '100%',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          />
+        <div className="app-center flex flex-col flex-1 min-h-[48vh] md:min-h-0 overflow-hidden min-w-0 relative">
+          {/* Main workspace canvas area */}
+          <div className="main-canvas flex-1 min-h-0 w-full relative overflow-hidden bg-viewport" />
 
           {/* Log Window anchored at bottom of the center workspace */}
           {isLogDockOpen && <LogDock />}
@@ -92,7 +57,7 @@ export default function App() {
         <OutputDock />
       </div>
 
-      {/* Modals — always mounted, revealed by store flags */}
+      {/* Modals */}
       <ProjectLocationModal />
       <InputErrorDialog />
     </div>
